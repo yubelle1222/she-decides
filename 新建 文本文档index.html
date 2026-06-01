@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生育决策辅助评估系统 ---致力于做最懂女性的生育决策陪伴与支持工具</title>
+    <!-- 引入 Tailwind CSS 用于精美样式 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- 引入 Chart.js 用于渲染雷达图 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FDFBF7] text-[#333] min-h-screen flex flex-col justify-between">
+
+    <!-- 导航栏 -->
+    <header class="p-6 max-w-4xl mx-auto w-full flex justify-between items-center border-b border-[#EAE5DC]">
+        <div class="font-bold text-lg text-[#606C38]">SheDecides .</div>
+        <div class="text-xs text-gray-400">本问卷所涉及的内容及建议仅供参考，不构成任何专业的 [医疗/心理/财务] 诊断或决定依据。生育是个体自由，无论您的测评结果如何，我们都全然尊重并支持您的任何决定。</div>
+    </header>
+
+    <!-- 主体内容区 -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="max-w-xl w-full bg-white rounded-2xl shadow-sm border border-[#EAE5DC] p-8 md:p-10 transition-all duration-300">
+            
+            <!-- 1. 欢迎首页 -->
+            <div id="home-view" class="space-y-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-semibold tracking-widest text-[#9AC1B4] uppercase">客观 · 理性 · 赋能</span>
+                    <h1 class="text-2xl md:text-3xl font-serif font-bold text-[#2B3A1A] leading-tight">生育决策辅助评估</h1>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    费孝通先生在《生育制度》中提到，生育绝非单纯的生物学现象，而是个体与复杂社会制度的博弈。本系统基于学术界的决策支持框架，从心理、经济、家庭、生理、社会五个维度，帮助你客观解构当下的处境，看清内心的真实期盼。
+                </p>
+                <div class="bg-[#F4F1EA] p-4 rounded-xl text-xs text-gray-500 space-y-1">
+                    <p>🔒 <strong>隐私承诺：</strong> 我们不收集任何个人数据。答题数据仅存在于您当前的浏览器内存中，关闭网页即刻销毁。</p>
+                </div>
+                <button onclick="startQuiz()" class="w-full bg-[#606C38] text-white py-3 rounded-xl font-medium hover:bg-[#4F592F] transition shadow-md cursor-pointer text-center block">
+                    开始匿名测评 (共 14 题)
+                </button>
+            </div>
+
+           <!-- 2. 答题区 -->
+            <div id="quiz-view" class="hidden space-y-6">
+                <!-- 进度条 -->
+                <div class="w-full bg-[#F4F1EA] h-1.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-[#9AC1B4] h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-xs text-gray-400">
+                    <span id="dimension-tag">当前维度</span>
+                    <div class="space-x-3">
+                        <!-- 增加返回上一题的文字链 -->
+                        <button id="prev-btn" onclick="prevQuestion()" class="text-[#606C38] hover:underline cursor-pointer hidden">← 返回上一题</button>
+                        <span id="progress-text">1 / 14</span>
+                    </div>
+                </div>
+                
+                <!-- 题目卡片 -->
+                <div class="min-h-[120px] flex items-center">
+                    <h2 id="question-text" class="text-lg font-medium text-[#2B3A1A] leading-snug">题目加载中...</h2>
+                </div>
+
+                <!-- 选项按钮 -->
+                <div id="options-container" class="space-y-3 pt-4"></div>
+            </div>
+
+            <!-- 3. 结果报告区 (默认隐藏) -->
+            <div id="result-view" class="hidden space-y-8">
+                <div class="text-center space-y-2">
+                    <span class="text-xs font-bold text-[#9AC1B4] tracking-widest">TEST REPORT</span>
+                    <h2 class="text-2xl font-bold text-[#2B3A1A]">您的生育决策对冲报告</h2>
+                    <p id="portrait-tag" class="inline-block bg-[#E6EDEA] text-[#4A7A68] px-3 py-1 rounded-full text-xs font-medium">画像计算中...</p>
+                </div>
+
+                <!-- 雷达图容器 -->
+                <div class="w-full max-w-[320px] mx-auto aspect-square">
+                    <canvas id="radarChart"></canvas>
+                </div>
+
+                <!-- 深度分析 -->
+                <div class="space-y-4 border-t border-[#EAE5DC] pt-6">
+                    <h3 class="font-bold text-[#2B3A1A] text-sm flex items-center">
+                        <span class="w-1.5 h-4 bg-[#606C38] inline-block mr-2 rounded-full"></span>核心分析与诊断
+                    </h3>
+                    <p id="analysis-text" class="text-gray-600 text-sm leading-relaxed bg-[#FDFBF7] p-4 rounded-xl border border-[#F4F1EA]">
+                        分析加载中...
+                    </p>
+                </div>
+
+                <!-- 行动指南 -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-[#2B3A1A] text-sm flex items-center">
+                        <span class="w-1.5 h-4 bg-[#9AC1B4] inline-block mr-2 rounded-full"></span>行动建议 (Next Steps)
+                    </h3>
+                    <ul id="suggestions-list" class="text-sm text-gray-600 space-y-2 list-disc pl-5 leading-relaxed">
+                        <!-- 动态生成 -->
+                    </ul>
+                </div>
+<!-- 增加：历史选项回顾 -->
+                <div class="space-y-3 border-t border-[#EAE5DC] pt-6">
+                    <h3 class="font-bold text-[#2B3A1A] text-sm flex items-center">
+                        <span class="w-1.5 h-4 bg-gray-400 inline-block mr-2 rounded-full"></span>您的选项回顾
+                    </h3>
+                    <div id="history-container" class="text-xs text-gray-600 space-y-3 max-h-[200px] overflow-y-auto bg-[#FDFBF7] p-4 rounded-xl border border-[#F4F1EA]">
+                        <!-- 动态生成用户刚才选了什么 -->
+                    </div>
+                </div>
+                <!-- 按钮组 -->
+                <div class="pt-4 flex gap-3">
+                    <button onclick="location.reload()" class="flex-1 bg-[#F4F1EA] text-gray-700 py-3 rounded-xl font-medium hover:bg-[#EAE5DC] transition text-sm">
+                        重新测试
+                    </button>
+                    <button onclick="window.print()" class="flex-1 bg-[#606C38] text-white py-3 rounded-xl font-medium hover:bg-[#4F592F] transition text-sm shadow">
+                        打印 / 保存PDF报告
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="p-6 text-center text-xs text-gray-400 max-w-4xl mx-auto w-full border-t border-[#EAE5DC]">
+        一个去商业化的、纯粹属于女性的决策支持工具 · 祝你始终拥有生活的主导权
+    </footer>
+
+    <!-- 底层交互脚本逻辑 -->
+    <script>
+        // 1. 题目数据源
+        const questions = [
+            { id: 1, dim: 'psychology', text: '假设社会风气完全改变（不生不会被任何人议论），伴侣也无所谓，你内心深处仍然渴望抚养一个生命、体验陪伴其长大的过程吗？', type: 'scale' },
+            { id: 2, dim: 'psychology', text: '你能够接受在孩子出生后的头2-3年里，几乎没有完整的深度自我学习、娱乐或社交，生活重心严重倾斜的状态吗？', type: 'scale' },
+            { id: 3, dim: 'psychology', text: '当面对孩子无法讲理的哭闹而彻底打乱你的既定工作或生活节奏时，你觉得自己有足够的心理韧性去接纳和消化负面情绪吗？', type: 'scale' },
+            { id: 4, dim: 'psychology', text: '在潜意识里，你是否清晰地意识到自己生孩子不是为了弥补童年遗憾、或向原生家庭证明某些东西？', type: 'scale' },
+            
+            { id: 5, dim: 'economy', text: '如果孩子出生后，每月纯刚性开销占到家庭总收入的30%-40%，这会让你产生强烈的生存焦虑感吗？(选非常赞同代表焦虑极高，即该项得分低)', type: 'reverse' },
+            { id: 6, dim: 'economy', text: '在你目前的职业赛道上，如果因为生育导致未来2年内错失晋升、甚至需要降薪换到轻松岗位，你内心的抗拒和失落感有多大？(选非常赞同代表极其抗拒)', type: 'reverse' },
+            { id: 7, dim: 'economy', text: '如果因为育儿需要，你或伴侣一侧需要全职在家6-12个月（完全失去一侧收入），你们的存款能让生活质量不发生断崖式下跌吗？', type: 'scale' },
+            
+            { id: 8, dim: 'family', text: '你感觉你的伴侣想要孩子，更多是源于他独立个体对父职的向往与喜爱，而不是单纯履行“传宗接代”等传统叙事。', type: 'scale' },
+            { id: 9, dim: 'family', text: '在面对具体家务或突发琐事时，你的伴侣能主动发现问题并承担责任，而不是“赶一下动一下”的被动帮手。', type: 'scale' },
+            { id: 10, dim: 'family', text: '若需要长辈帮忙带娃，你有信心在面对必然发生的观念冲突时，伴侣能坚定地站在你这边并有效沟通，且你不会被长辈内耗。', type: 'scale' },
+            
+            { id: 11, dim: 'biology', text: '你是否清晰地知道女性在35岁之后，即使依赖试管婴儿等辅助生殖技术，成功率也会急剧下降，且伴随更高的孕期并发症风险？', type: 'scale' },
+            { id: 12, dim: 'biology', text: '对于生育可能带来的漏尿、腹直肌分离、骨盆疼痛等不可逆的身体变化，你是否有清晰的医学认知和康复预算？', type: 'scale' },
+            
+            { id: 13, dim: 'social', text: '在你生活的社区周围，步行距离内是否有性价比高、令人放心的托育机构（尤其是0-3岁）或公办幼儿园？', type: 'scale' },
+            { id: 14, dim: 'social', text: '你目前所在的公司或行业，对于“孕妇”和“新手妈妈”有良好的合规包容度（如法定的产假落实、不强制加班、有母婴室等）。', type: 'scale' }
+        ];
+
+        const dimensionNames = {
+            psychology: '个体心理与母职认知',
+            economy: '经济条件与职场成本',
+            family: '家庭系统与亲密关系',
+            biology: '生理健康与时间窗口',
+            social: '社会支持与地域政策'
+        };
+
+        let currentIdx = 0;
+        let userAnswers = [];
+
+        // 2. 界面切换控制
+        function startQuiz() {
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.remove('hidden');
+            showQuestion();
+        }
+
+      const scoreLabels = {
+            5: '非常赞同',
+            4: '比较赞同',
+            3: '中立 / 不确定',
+            2: '不太赞同',
+            1: '强烈反对'
+        };
+
+        // 2. 界面切换控制
+        function startQuiz() {
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.remove('hidden');
+            currentIdx = 0;
+            userAnswers = [];
+            showQuestion();
+        }
+
+        // 3. 渲染题目与5分制选项
+        function showQuestion() {
+            const q = questions[currentIdx];
+            
+            // 更新进度与标签
+            document.getElementById('dimension-tag').innerText = dimensionNames[q.dim];
+            document.getElementById('progress-text').innerText = `${currentIdx + 1} / ${questions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+            document.getElementById('question-text').innerText = q.text;
+
+            // 控制“返回上一题”按钮的显示与隐藏
+            const prevBtn = document.getElementById('prev-btn');
+            if (currentIdx > 0) {
+                prevBtn.classList.remove('hidden');
+            } else {
+                prevBtn.classList.add('hidden');
+            }
+
+            // 生成标准的5分制按钮
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const scaleOptions = [
+                { score: 5, label: '非常赞同' },
+                { score: 4, label: '比较赞同' },
+                { score: 3, label: '中立 / 不确定' },
+                { score: 2, label: '不太赞同' },
+                { score: 1, label: '强烈反对' }
+            ];
+
+            scaleOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 rounded-xl border border-[#EAE5DC] text-sm hover:bg-[#F4F1EA] hover:border-[#9AC1B4] transition active:scale-[0.99] cursor-pointer block";
+                btn.innerText = opt.label;
+                btn.onclick = () => handleAnswer(opt.score, opt.label);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // 4. 处理用户点击答案
+        function handleAnswer(score, label) {
+            const q = questions[currentIdx];
+            
+            // 处理反向计分题
+            let finalScore = score;
+            if (q.type === 'reverse') {
+                finalScore = 6 - score;
+            }
+
+            // 如果是修改之前的答案，先删掉旧的
+            if (userAnswers[currentIdx]) {
+                userAnswers[currentIdx] = { dim: q.dim, score: finalScore, qText: q.text, userLabel: label };
+            } else {
+                userAnswers.push({ dim: q.dim, score: finalScore, qText: q.text, userLabel: label });
+            }
+
+            currentIdx++;
+            if (currentIdx < questions.length) {
+                showQuestion();
+            } else {
+                calculateResult();
+            }
+        }
+
+        // 增加：返回上一题功能
+        function prevQuestion() {
+            if (currentIdx > 0) {
+                currentIdx--;
+                userAnswers.pop(); // 弹出最后一个答案
+                showQuestion();
+            }
+        }
+
+        // 5. 精准多维度诊断算法与结果渲染
+        function calculateResult() {
+            document.getElementById('quiz-view').classList.add('hidden');
+            document.getElementById('result-view').classList.remove('hidden');
+
+            const scores = { psychology: 0, economy: 0, family: 0, biology: 0, social: 0 };
+            const counts = { psychology: 0, economy: 0, family: 0, biology: 0, social: 0 };
+
+            userAnswers.forEach(ans => {
+                scores[ans.dim] += ans.score;
+                counts[ans.dim]++;
+            });
+
+            const finalScores = {};
+            for (let dim in scores) {
+                finalScores[dim] = (scores[dim] / counts[dim]).toFixed(1);
+            }
+
+            // 渲染雷达图
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['心理认知', '经济职场', '家庭关系', '生理时间', '社会环境'],
+                    datasets: [{
+                        label: '准备度得分',
+                        data: [finalScores.psychology, finalScores.economy, finalScores.family, finalScores.biology, finalScores.social],
+                        backgroundColor: 'rgba(154, 193, 180, 0.4)',
+                        borderColor: '#606C38',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#606C38'
+                    }]
+                },
+                options: {
+                    scales: { r: { min: 1, max: 5, ticks: { stepSize: 1, display: false }, grid: { color: '#EAE5DC' } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 文案生成基调
+            let portrait = "";
+            let analysis = "";
+            let suggestions = [];
+            const isPsychHigh = finalScores.psychology >= 3.5;
+
+            if (isPsychHigh) {
+                portrait = "精神内核强大的自主抉zet者";
+                analysis = "雷达图显示，你内心深处对生育和母职有着非常清醒且成熟的认知。你明白生育对自己身份带来的重构，并具备良好的无序耐受力。你不是在盲目顺从传统的社会叙事，而是作为一个独立的生命个体在理性审视这件事。这种强大的主观精神内核，是你做任何决策最底层的基石。";
+            } else {
+                portrait = "处于迷茫与顾虑中的清醒审视者";
+                analysis = "雷达图显示，你目前对‘母职’可能带来的自我时间让渡、身份吞噬存有较高的戒备或恐惧。这非常正常，现代女性的独立性让我们不再盲从传统。外部环境的催促无法打动你，你在严谨地保护自己的主体性，在心理尚未完全安顿好之前，所有的纠结都是你保护自己的安全阀。";
+            }
+
+            let strengths = [];
+            let pressures = [];
+
+            if (finalScores.economy >= 3.5) {
+                strengths.push("在经济财务与职场成本上，你拥有很好的耐受力或安全边际，物质和职业停滞对你而言不是核心制约因素。");
+            } else {
+                pressures.push("职场机会成本或直接经济压力较大，可能正面临晋升关键期，或者对生育带来的财务刚性支出感到紧绷。");
+                suggestions.push("针对财务职场：建议与伴侣做一次‘底线财务压测’，算清楚如果一侧阶段性停工家庭的现金流底线，降低不确定性带来的焦虑。");
+            }
+
+            if (finalScores.family >= 3.5) {
+                strengths.push("你的家庭系统和亲密关系非常给力，伴侣具备良好的共担意识，代际支持也相对正向。");
+            } else {
+                pressures.push("家庭合伙人支持系统仍有加固空间，伴侣在主动分工上可能有所欠缺，或者面临潜在的代际育儿观念内耗。");
+                suggestions.push("针对家庭关系：把隐形压力变成具体分工，试着跟伴侣把家务和夜间带娃的细节聊透，甚至写个小协议，明确合伙人职责。");
+            }
+
+            if (finalScores.biology < 3.5) {
+                pressures.push("生理时间窗口或身体耐受度认知让你感到一些压力，可能存在年龄带来的时间焦虑，或对产后身体损伤有所担忧。");
+                suggestions.push("针对生理时间：寻求客观的围产期医学科普，破除‘技术万能论’或过度的‘年龄恐慌’，必要时可做系统的生育力评估。");
+            }
+            if (finalScores.social < 3.5) {
+                pressures.push("由于所处地域的托育资源不完善或职场文化不友好，你正在用极高的个人精力去对冲宏观制度的不健全。");
+                suggestions.push("针对社会大环境：多去了解和挖掘社区周边的隐形支持网络（如同龄互助社群、可靠的私立托育），寻找体制外的托底资源。");
+            }
+
+            analysis += "\n\n【现状拆解】：";
+            if (strengths.length > 0) analysis += " 你的优势在于：" + strengths.join(" ");
+            if (pressures.length > 0) {
+                analysis += " 目前主要的压力源在于：" + pressures.join(" ");
+            } else {
+                analysis += " 令人羡慕的是，你的外部各项现实客观条件都非常理想。";
+            }
+
+            if (isPsychHigh && pressures.length === 0) {
+                portrait = "全面准备：顺理成章的绿灯期";
+                suggestions.push("目前一切条件都非常顺理成章，保持轻松愉悦的心态，按自己的节奏前行即可。");
+            }
+            if (isPsychHigh && pressures.length >= 3) portrait = "高阻力-高耐受的孤勇者";
+            if (!isPsychHigh && pressures.length === 0) {
+                portrait = "低阻力-低耐受的清醒独立者";
+                suggestions.push("现实万事俱备，不想生也是极其完美的现代生活解。给自己一个半年的‘生育决策冷冻期’，全然享受当下的绝对自由。");
+            }
+
+            document.getElementById('portrait-tag').innerText = portrait;
+            document.getElementById('analysis-text').innerText = analysis;
+            
+            // 渲染建议列表
+            const sugListContainer = document.getElementById('suggestions-list');
+            sugListContainer.innerHTML = '';
+            suggestions.forEach(sug => {
+                const li = document.createElement('li');
+                li.innerText = sug;
+                sugListContainer.appendChild(li);
+            });
+
+            // 渲染：历史答案查看功能
+            const historyContainer = document.getElementById('history-container');
+            historyContainer.innerHTML = '';
+            userAnswers.forEach((ans, index) => {
+                const item = document.createElement('div');
+                item.className = "border-b border-[#F4F1EA] pb-2 last:border-0";
+                item.innerHTML = `
+                    <p class="font-medium text-[#2B3A1A]">${index + 1}. ${ans.qText}</p>
+                    <p class="text-[#606C38] mt-0.5">您的选择：<strong>${ans.userLabel}</strong> <span class="text-gray-400">(${dimensionNames[ans.dim]})</span></p>
+                `;
+                historyContainer.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>
