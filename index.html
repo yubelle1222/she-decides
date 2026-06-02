@@ -58,7 +58,7 @@
             <div id="result-view" class="hidden space-y-8">
                 <div class="text-center space-y-2">
                     <span class="text-xs font-bold text-[#9AC1B4] tracking-widest">TEST REPORT</span>
-                    <h2 class="text-2xl font-bold text-[#2B3A1A]">您的生育决策对冲报告</h2>
+                    <h2 class="text-2xl font-bold text-[#2B3A1A]">您的生育决策评估报告</h2>
                     <p id="portrait-tag" class="inline-block bg-[#E6EDEA] text-[#4A7A68] px-3 py-1 rounded-full text-xs font-medium">画像计算中...</p>
                 </div>
 
@@ -396,77 +396,92 @@
                 }
             });
 
-            // 规则文本计算矩阵：保留人文关怀风格，降低术语感，并输出更务实的行动建议
+            // 四档分层模型：五维平权展示，短板优先解释，心理意愿单独标注
             let portrait = "";
             let analysis = "";
             let suggestions = [];
-            const isPsychHigh = finalScores.psychology >= 3.5;
+            const dimensionReports = [
+                { key: 'psychology', name: '心理认知', score: Number(finalScores.psychology) },
+                { key: 'economy', name: '经济条件与职场', score: Number(finalScores.economy) },
+                { key: 'family', name: '家庭支持', score: Number(finalScores.family) },
+                { key: 'biology', name: '生理健康', score: Number(finalScores.biology) },
+                { key: 'social', name: '职业与社会支持', score: Number(finalScores.social) }
+            ];
 
-            if (isPsychHigh) {
-                portrait = "意愿较清晰的自主决策者";
+            const adviceMap = {
+                psychology: {
+                    priority: "针对心理准备：建议先把“我是否真的想要孩子”和“别人是否希望我生”分开看。可以写下你对生育最期待的三件事、最抗拒的三件事，再和伴侣进行一次不以说服为目的的沟通。在心理意愿没有基本确认前，不建议仓促进入备孕。",
+                    attention: "针对心理准备：你目前并非完全没有意愿，但仍需要继续确认这是否是自己的真实选择。建议把外界期待、年龄压力和伴侣态度暂时放到一边，单独观察自己对育儿生活的期待、顾虑和边界。"
+                },
+                economy: {
+                    priority: "针对经济条件：建议和伴侣一起做一次家庭现金流盘点，列出孕产检查、分娩、月嫂或育儿嫂、奶粉尿布、托育、医疗和教育等基础支出。至少预留 6-12 个月的家庭应急资金，并评估如果一方收入短期减少，生活质量是否还能维持。重点不是追求“完全有钱再生”，而是避免孩子出生后财务压力集中爆发。",
+                    attention: "针对经济条件：你目前有一定基础，但仍建议提前做育儿预算和现金流压力测试。尤其要看收入波动、住房成本、托育费用和职业调整是否会在同一阶段集中出现。"
+                },
+                family: {
+                    priority: "针对家庭支持：建议把“到时候一起带”拆成具体分工，包括夜间照料、家务、喂养、产后陪伴、经济分担和长辈介入边界。尤其要提前确认伴侣是否能主动承担责任，而不是只在被提醒时帮忙。月子照料和初期带娃方案也应尽早确定，避免产后才开始临时协商。",
+                    attention: "针对家庭支持：你们已经具备一些协作基础，但仍建议把产后最容易出问题的细节提前说清楚，包括夜间照料、长辈参与、月子安排、家务分配和突发情况处理。"
+                },
+                biology: {
+                    priority: "针对生理健康：建议优先完成系统孕前检查，了解月经、排卵、慢性病、妇科基础问题和家族遗传风险。接下来重点调整作息、运动、营养和长期疲劳状态。如果年龄或身体指标已经带来时间压力，建议尽早咨询专业医生，用真实身体数据辅助判断，而不是单靠焦虑或侥幸做决定。",
+                    attention: "针对生理健康：你对身体和孕产风险已有一定认识，但仍建议把体检、作息调整、营养补充和产后恢复预算提前纳入计划。身体准备不需要完美，但需要尽量可知、可控。"
+                },
+                social: {
+                    priority: "针对职业与社会支持：建议提前了解所在地的产假、生育津贴、医保报销、育儿假和托育资源，同时评估公司对孕期、产后回归、弹性安排的真实友好程度。如果正处在职业关键阶段，可以提前规划备孕时间和产后回归路径，尽量减少生育对职业发展的被动影响。",
+                    attention: "针对职业与社会支持：你已经有部分外部资源，但仍建议进一步确认政策细节和真实可用性。重点看产假权益是否能落地、托育资源是否排得上、产后回归是否有可执行安排。"
+                }
+            };
+
+            function getLevel(item) {
+                if (item.score >= 4.2) return 'stable';
+                if (item.score >= 3.5) return 'attention';
+                if (item.score >= 2.6) return 'priority';
+                return 'risk';
+            }
+
+            const grouped = { stable: [], attention: [], priority: [], risk: [] };
+            dimensionReports.forEach(item => grouped[getLevel(item)].push(item));
+            const formatItems = (items) => items.map(item => `${item.name} ${item.score.toFixed(1)}分`).join("、");
+            const hasRealityShortboard = grouped.priority.concat(grouped.risk).some(item => item.key !== 'psychology');
+            const isPsychReady = Number(finalScores.psychology) >= 3.5;
+
+            if (grouped.risk.length > 0) {
+                portrait = "存在高风险短板，建议暂缓推进";
+            } else if (isPsychReady && hasRealityShortboard) {
+                portrait = "意愿较清晰，但现实支持不足";
+            } else if (!isPsychReady && !hasRealityShortboard) {
+                portrait = "现实条件尚可，主观意愿仍需澄清";
+            } else if (!isPsychReady && hasRealityShortboard) {
+                portrait = "仍在评估期，适合放慢决策";
+            } else {
+                portrait = "意愿较清晰，进入准备确认期";
+            }
+
+            if (isPsychReady) {
                 analysis = "从你的回答看，你对生育和母职并不是一时冲动，而是已经认真想过孩子出生后可能带来的生活变化。你能意识到，时间、精力、身体、情绪和职业节奏都会被重新分配，也愿意把这些现实问题放到桌面上讨论。\n\n这份清醒感很重要。它意味着你的决定更可能来自自己的判断，而不是外界催促、年龄焦虑或家庭期待。";
             } else {
-                portrait = "仍在评估期的清醒审视者";
-                analysis = "从你的回答看，你对成为母亲之后可能失去个人时间、职业节奏和生活掌控感这件事，仍然有比较明显的顾虑。这并不代表你不成熟，也不代表你一定不适合生育。\n\n相反，它说明你正在认真保护自己的生活边界。在心理意愿没有基本确认前，放慢决定是合理的。生育不应该只是被催出来的结果，而应该是你在充分知情之后，仍然愿意承担的选择。";
-                suggestions.push("针对心理准备：建议先把“我是否真的想要孩子”和“别人是否希望我生”分开看。可以写下你对生育最期待的三件事、最抗拒的三件事，再和伴侣进行一次不以说服为目的的沟通。在心理意愿没有基本确认前，不建议仓促进入备孕。");
+                analysis = "从你的回答看，你对成为母亲之后可能出现的生活变化仍然有比较明显的顾虑。这并不代表你不成熟，也不代表你一定不适合生育。\n\n相反，它说明你正在认真保护自己的生活边界。在心理意愿没有基本确认前，放慢决定是合理的。生育不应该只是被催出来的结果，而应该是你在充分知情之后，仍然愿意承担的选择。";
             }
 
-            let strengths = [];
-            let pressures = [];
-
-            if (finalScores.psychology >= 3.5) {
-                strengths.push("心理认知上，你对生育的期待和代价都有一定预判，不太像是在盲目顺从外界声音。");
+            analysis += "\n\n【综合判断】：";
+            if (grouped.risk.length > 0) {
+                analysis += "目前有个别维度已经进入高风险区间，说明问题不只是“再准备一下”那么简单，而是可能会实质影响你的身体安全、情绪稳定、家庭协作或现实承受力。现阶段不建议仓促推进生育决定，更适合先把这些关键问题拆开处理。";
+            } else if (grouped.priority.length > 0) {
+                analysis += "目前你并不是完全没有准备，但有些关键维度还没有达到足够稳定的状态。这些短板如果被跳过，后续更容易转化为孕期焦虑、产后照料冲突、财务压力或职业损失。比起立刻给自己一个结论，更适合先把最薄弱的部分补齐。";
+            } else if (grouped.attention.length > 0) {
+                analysis += "整体来看，你已经具备一定基础，没有特别突出的高风险短板。但仍有一些维度需要在进入具体备孕或家庭规划前进一步确认，尤其是那些会影响长期照料、财务安排、职业节奏和个人感受的现实细节。";
             } else {
-                pressures.push("心理认知上，你对母职可能带来的生活重心变化仍有明显犹豫，需要先确认这是不是自己真正想要进入的人生阶段。");
+                analysis += "整体来看，目前五个维度都相对稳定。接下来更重要的不是追求“完美准备”，而是持续沟通、保留弹性，并把体检、财务、照料和职业安排逐步落地。";
             }
 
-            if (finalScores.economy >= 3.5) {
-                strengths.push("经济和职业层面，你目前具备一定缓冲空间，育儿支出或短期职业波动暂时不是最突出的限制。");
-            } else {
-                pressures.push("经济和职业层面，家庭抗风险能力还不够稳定，育儿开销、收入波动或晋升节奏变化可能带来较强压力。");
-                suggestions.push("针对经济条件：建议和伴侣一起做一次家庭现金流盘点，列出孕产检查、分娩、月嫂或育儿嫂、奶粉尿布、托育、医疗和教育等基础支出。至少预留 6-12 个月的家庭应急资金，并评估如果一方收入短期减少，生活质量是否还能维持。重点不是追求“完全有钱再生”，而是避免孩子出生后财务压力集中爆发。");
-            }
-
-            if (finalScores.family >= 3.5) {
-                strengths.push("家庭支持层面，你和伴侣之间已有一定协作基础，产后照料和责任共担更容易提前协商。");
-            } else {
-                pressures.push("家庭支持层面，伴侣分工、长辈边界或产后照料方案仍不够清晰，后续容易变成情绪消耗。");
-                suggestions.push("针对家庭支持：建议把“到时候一起带”拆成具体分工，包括夜间照料、家务、喂养、产后陪伴、经济分担和长辈介入边界。尤其要提前确认伴侣是否能主动承担责任，而不是只在被提醒时帮忙。月子照料和初期带娃方案也应尽早确定，避免产后才开始临时协商。");
-            }
-
-            if (finalScores.biology >= 3.5) {
-                strengths.push("生理健康层面，你对身体检查、孕产风险和产后恢复有一定认识，也更容易用客观信息做判断。");
-            }
-            if (finalScores.biology < 3.5) {
-                pressures.push("生理健康层面，你的身体状态、作息基础或孕产风险认知还需要进一步评估，不能只靠焦虑或侥幸推进。");
-                suggestions.push("针对生理健康：建议优先完成系统孕前检查，了解月经、排卵、慢性病、妇科基础问题和家族遗传风险。接下来重点调整作息、运动、营养和长期疲劳状态。如果年龄或身体指标已经带来时间压力，建议尽早咨询专业医生，用真实身体数据辅助判断，而不是单靠焦虑或侥幸做决定。");
-            }
-
-            if (finalScores.social >= 3.5) {
-                strengths.push("职业与社会支持层面，你对政策、职场环境和托育资源已有一定把握，外部条件能提供部分托底。");
-            }
-            if (finalScores.social < 3.5) {
-                pressures.push("职业与社会支持层面，托育资源、政策信息或职场友好度还不够明确，生育可能带来现实损失。");
-                suggestions.push("针对职业与社会支持：建议提前了解所在地的产假、生育津贴、医保报销、育儿假和托育资源，同时评估公司对孕期、产后回归、弹性安排的真实友好程度。如果正处在职业关键阶段，可以提前规划备孕时间和产后回归路径，尽量减少生育对职业发展的被动影响。");
-            }
-
-            analysis += "\n\n【现状拆解】：";
-            if (strengths.length > 0) analysis += " 目前相对稳定的部分是：" + strengths.join(" ");
-            if (pressures.length > 0) {
-                analysis += " 更需要优先处理的是：" + pressures.join(" ");
-            } else {
-                analysis += " 目前没有特别突出的短板，但仍建议保留真实沟通和动态评估，不必为了追求“完美准备”而给自己增加新的压力。";
-            }
-
-            if (isPsychHigh && pressures.length === 0) {
-                portrait = "意愿清晰，现实条件较稳";
-                suggestions.push("目前你的主观意愿和现实条件都相对稳定。接下来可以把重点放在孕前体检、家庭财务预案、产后照料分工和职业安排确认上。只要这些基础事项逐步落地，就可以按照自己的节奏推进，不需要被外界时间表牵着走。");
-            }
-            if (isPsychHigh && pressures.length >= 3) portrait = "意愿明确，但现实支持不足";
-            if (!isPsychHigh && pressures.length === 0) {
-                portrait = "现实条件充足，但主观意愿未定";
-                suggestions.push("从现实条件看，你并没有被明显短板卡住；但如果内心仍然没有形成稳定意愿，也不需要因为“条件都还可以”就匆忙决定。建议给自己设置一段观察期，暂时不做承诺，只记录自己在不同生活场景下对生育的真实感受，再回头判断这是不是你愿意主动选择的人生方向。");
-            }
+            grouped.risk.forEach(item => {
+                suggestions.push("高风险短板｜" + item.name + "：" + adviceMap[item.key].priority);
+            });
+            grouped.priority.forEach(item => {
+                suggestions.push("优先处理｜" + item.name + "：" + adviceMap[item.key].priority);
+            });
+            grouped.attention.forEach(item => {
+                suggestions.push("建议关注｜" + item.name + "：" + adviceMap[item.key].attention);
+            });
 
             document.getElementById('portrait-tag').innerText = portrait;
             document.getElementById('analysis-text').innerText = analysis;
