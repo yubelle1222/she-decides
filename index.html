@@ -114,47 +114,47 @@
             // ==========================================
             // 维度一：psychology (个体心理与母职认知)
             // ==========================================
-            { id: 1, dim: 'psychology', text: '假设社会风气完全改变（不生不会被议论），伴侣也无所谓，你内心深处仍然渴望抚养一个生命、体验陪伴其长大的过程吗？', type: 'scale' },
-            { id: 2, dim: 'psychology', text: '当面对孩子无法讲理的哭闹而彻底打乱你的既定工作或生活节奏时，你觉得自己有足够的心理韧性去接纳和消化负面情绪吗？', type: 'scale' },
-            { id: 3, dim: 'psychology', text: '你能够接受在孩子出生后的头 2-3 年里，生活重心严重倾斜，甚至阶段性失去完整的深度自我学习、娱乐或社交空间吗？', type: 'scale' },
-            { id: 4, dim: 'psychology', text: '在潜意识里，你是否清晰地意识到自己生孩子不是为了弥补童年遗憾、拴住伴侣、或向原生家庭证明某些东西？', type: 'scale' },
-            { id: 5, dim: 'psychology', text: '现代社会给母亲贴上了很多“完美标签”，你是否做好了心理准备，去接纳一个可能并不完美、甚至会有局限性的自己和孩子？', type: 'scale' },
+            { id: 1, dim: 'psychology', text: '在不考虑外界评价、家庭催促或伴侣态度的情况下，你自己对抚养一个孩子、陪伴其成长这件事有多少期待？', type: 'scale', answerType: 'desire' },
+            { id: 2, dim: 'psychology', text: '面对育儿过程中可能出现的哭闹、睡眠不足和计划被打乱，你对自己学习应对、调节情绪的能力有多大信心？', type: 'scale', answerType: 'confidence' },
+            { id: 3, dim: 'psychology', text: '如果孩子出生后的前 2-3 年，你的时间安排、休息节奏和个人空间需要较大调整，你对这种阶段性生活变化的接受程度如何？', type: 'scale', answerType: 'acceptance' },
+            { id: 4, dim: 'psychology', text: '你是否能比较清楚地区分：哪些是你自己的生育意愿，哪些来自年龄压力、家庭期待、关系需求或社会评价？', type: 'scale', answerType: 'clarity' },
+            { id: 5, dim: 'psychology', text: '面对育儿中可能出现的不确定、疲惫和“不完美时刻”，你觉得自己目前的心理准备程度如何？', type: 'scale', answerType: 'readiness' },
             
             // ==========================================
             // 维度二：economy (经济条件与职场成本)
             // ==========================================
-            { id: 6, dim: 'economy', text: '如果孩子出生后，每月纯刚性开销占到家庭总收入的 30%-40%，这会让你产生强烈的生存焦虑或紧绷感吗？', type: 'reverse' },
-            { id: 7, dim: 'economy', text: '在你目前的职业赛道上，如果因为生育导致未来 2 年内错失晋升、甚至需要降薪换到轻松岗位，你内心的抗拒和失落感有多大？', type: 'reverse' },
-            { id: 8, dim: 'economy', text: '如果因为育儿需要，你或伴侣一侧需要全职在家 6-12 个月（完全失去一侧收入），你们的存款能让生活质量不发生断崖式下跌吗？', type: 'scale' },
-            { id: 9, dim: 'economy', text: '面对未来孩子长期的医疗、教育及成长不确定性支出，你和伴侣是否有清晰的长期资金规划或抗风险底气？', type: 'scale' },
-            { id: 10, dim: 'economy', text: '考虑到新生儿对独立空间的需求，你目前的居住环境在短期内是否可以容纳，而不需要你们被迫面临紧急的换房贷巨债压力？', type: 'scale' },
+            { id: 6, dim: 'economy', text: '结合你目前的家庭收支，如果新增孕产、托育和日常养育开销，家庭现金流可能承受的压力有多大？', type: 'reverse', answerType: 'pressure' },
+            { id: 7, dim: 'economy', text: '如果生育安排影响你未来 1-2 年的职业节奏，例如晋升、转岗、工作强度或收入变化，你对这种阶段性调整的接受程度如何？', type: 'scale', answerType: 'acceptance' },
+            { id: 8, dim: 'economy', text: '如果因为育儿需要，你或伴侣一方在 6-12 个月内减少工作或暂停收入，你们的存款是否能支持家庭生活基本稳定？', type: 'scale', answerType: 'capacity' },
+            { id: 9, dim: 'economy', text: '对于孩子出生后的医疗、照料、教育和家庭保障支出，你和伴侣是否已有相对清晰的长期资金规划？', type: 'scale', answerType: 'plan' },
+            { id: 10, dim: 'economy', text: '你目前的居住空间、通勤安排和生活配套，是否能基本支持新生儿照料和家庭成员的日常运转？', type: 'scale', answerType: 'capacity' },
             
             // ==========================================
             // 维度三：family (家庭系统与亲密关系)
             // ==========================================
-            { id: 11, dim: 'family', text: '你感觉你的伴侣想要孩子，更多是源于他作为独立个体对父职的向往与喜爱，而不是单纯履行传统叙事或完成父母任务。', type: 'scale' },
-            { id: 12, dim: 'family', text: '在面对具体家务或突发琐事时，你的伴侣能主动发现问题并承担责任，而不是“赶一下动一下”的被动帮手。', type: 'scale' },
-            { id: 13, dim: 'family', text: '若需要长辈帮忙带娃，你有信心在面对必然发生的观念冲突时，伴侣能坚定地站在你这边并有效沟通，且你不会被长辈内耗。', type: 'scale' },
-            { id: 14, dim: 'family', text: '你和伴侣平时的沟通模式是否足够成熟健康？双方能否在极度疲惫、高压的特殊时期，依然保持情绪稳定，不互相转嫁焦虑？', type: 'scale' },
-            { id: 15, dim: 'family', text: '对于月子照料、初期带娃的人力缺口（如请月嫂、育儿嫂或家人轮班），你们目前是否已经达成了明确且可落地的共识？', type: 'scale' },
+            { id: 11, dim: 'family', text: '你能感受到伴侣的生育意愿来自对育儿责任的理解和主动选择，而不只是外界期待或家庭任务吗？', type: 'scale', answerType: 'agree' },
+            { id: 12, dim: 'family', text: '在面对具体家务或突发琐事时，你的伴侣是否能主动发现问题并分担责任，而不是主要依赖你的提醒和安排？', type: 'scale', answerType: 'agree' },
+            { id: 13, dim: 'family', text: '如果需要长辈参与照料，你和伴侣对协调育儿观念差异、划清生活边界这件事有多大信心？', type: 'scale', answerType: 'confidence' },
+            { id: 14, dim: 'family', text: '在疲惫或压力较大的情况下，你和伴侣是否仍能保持基本沟通、共同解决问题，而不是互相指责或回避？', type: 'scale', answerType: 'capacity' },
+            { id: 15, dim: 'family', text: '对于月子照料、初期带娃的人力安排（如月嫂、育儿嫂、家人轮班或伴侣请假），你们目前是否已有明确且可落地的方案？', type: 'scale', answerType: 'plan' },
             
             // ==========================================
             // 维度四：biology (生理健康与时间窗口)
             // ==========================================
-            { id: 16, dim: 'biology', text: '你是否清晰地知道女性在 35 岁之后，即使依赖辅助生殖技术，成功率也会急剧下降，且伴随更高的孕期并发症风险？', type: 'scale' },
-            { id: 17, dim: 'biology', text: '对于生育可能带来的漏尿、腹直肌分离、骨盆疼痛等身体变化，你是否有清晰、理性的医学认知，并愿意预留康复预算？', type: 'scale' },
-            { id: 18, dim: 'biology', text: '审视你及伴侣目前的整体身体状况（如月经排卵、慢性基础病、家族遗传风险等），你们对通过体检排查生育风险持积极配合态度吗？', type: 'scale' },
-            { id: 19, dim: 'biology', text: '你目前的日常作息和身体素质，是否能够相对轻松地支撑孕期不适、分娩消耗以及产后初期高强度的频繁夜醒？', type: 'scale' },
-            { id: 20, dim: 'biology', text: '如果医生建议在备孕和孕期需要进行较为严格的饮食调整、戒掉不良嗜好或长期补充叶酸，你在行动上会感到极度痛苦或抗拒吗？', type: 'reverse' },
+            { id: 16, dim: 'biology', text: '你是否基本了解年龄、生育力、孕期并发症和辅助生殖技术的边界，并愿意在需要时咨询专业医生？', type: 'scale', answerType: 'clarity' },
+            { id: 17, dim: 'biology', text: '对于孕期、分娩和产后恢复可能带来的身体变化，你是否已有基本医学认知，并愿意为检查和康复预留时间与预算？', type: 'scale', answerType: 'readiness' },
+            { id: 18, dim: 'biology', text: '你和伴侣是否愿意通过孕前体检，了解月经排卵、慢性基础病、妇科问题、遗传风险等基础情况？', type: 'scale', answerType: 'attitude' },
+            { id: 19, dim: 'biology', text: '从作息、运动、营养和长期疲劳状态来看，你目前的身体基础对备孕、孕期和产后恢复的支持程度如何？', type: 'scale', answerType: 'capacity' },
+            { id: 20, dim: 'biology', text: '如果备孕和孕期需要调整饮食、作息、用药习惯或补充营养，你的执行意愿如何？', type: 'scale', answerType: 'willingness' },
             
             // ==========================================
             // 维度五：social (社会支持与地域政策)
             // ==========================================
-            { id: 21, dim: 'social', text: '在你生活的社区周围，步行或短途通勤距离内是否有性价比高、令人放心的托育机构（尤其是 0-3 岁）或公办幼儿园？', type: 'scale' },
-            { id: 22, dim: 'social', text: '你目前所在的公司或行业，对于“孕妇”和“新手妈妈”有良好的合规包容度（如法定的产假落实、不强制加班、有母婴室等）。', type: 'scale' },
-            { id: 23, dim: 'social', text: '你清晰了解所在城市的生育津贴、产假补贴、以及社保生育险的报销政策，并确认自己能正常享受这些宏观福利兜底吗？', type: 'scale' },
-            { id: 24, dim: 'social', text: '你目前所处的社交圈层、行业或居住城市，对于丁克、晚育、或是职业母亲的包容度较高，不会让你时刻感受到密集的舆论审判。', type: 'scale' },
-            { id: 25, dim: 'social', text: '你是否擅长或愿意去主动挖掘、利用身边的隐形社会支持网络（如同龄互助社群、可靠的私立医疗等）来为自己的育儿减压？', type: 'scale' }
+            { id: 21, dim: 'social', text: '在你生活或工作的常规活动范围内，是否有相对可负担、可信赖的托育、幼儿园或临时照料资源？', type: 'scale', answerType: 'resource' },
+            { id: 22, dim: 'social', text: '你所在的公司或行业，对孕期、产假、哺乳期和产后回归的制度执行与日常氛围是否相对友好？', type: 'scale', answerType: 'environment' },
+            { id: 23, dim: 'social', text: '你是否清楚所在地的生育津贴、产假、医保报销、生育险和育儿假等政策，并知道自己大致能享受哪些支持？', type: 'scale', answerType: 'clarity' },
+            { id: 24, dim: 'social', text: '你目前所处的社交圈层、行业或居住城市，对不同生育选择（如不生、丁克、晚育、职业母亲）是否有相对包容的氛围？', type: 'scale', answerType: 'environment' },
+            { id: 25, dim: 'social', text: '你是否擅长或愿意去主动挖掘、利用身边的隐形社会支持网络（如同龄互助社群、可靠的私立医疗等）来为自己的育儿减压？', type: 'scale', answerType: 'willingness' }
         ];
 
         const dimensionNames = {
@@ -165,12 +165,112 @@
             social: '社会支持与地域政策'
         };
 
-        const scoreLabels = {
-            5: '非常赞同',
-            4: '比较赞同',
-            3: '中立 / 不确定',
-            2: '不太赞同',
-            1: '强烈反对'
+        const answerOptions = {
+            agree: [
+                { score: 5, label: '非常符合' },
+                { score: 4, label: '比较符合' },
+                { score: 3, label: '不确定' },
+                { score: 2, label: '不太符合' },
+                { score: 1, label: '完全不符合' }
+            ],
+            desire: [
+                { score: 5, label: '非常渴望' },
+                { score: 4, label: '比较期待' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '不太想要' },
+                { score: 1, label: '完全不想要' }
+            ],
+            confidence: [
+                { score: 5, label: '非常有信心' },
+                { score: 4, label: '比较有信心' },
+                { score: 3, label: '说不清' },
+                { score: 2, label: '信心不足' },
+                { score: 1, label: '完全没有信心' }
+            ],
+            acceptance: [
+                { score: 5, label: '完全可以接受' },
+                { score: 4, label: '基本可以接受' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '不太能接受' },
+                { score: 1, label: '完全不能接受' }
+            ],
+            clarity: [
+                { score: 5, label: '非常清楚' },
+                { score: 4, label: '比较清楚' },
+                { score: 3, label: '了解有限' },
+                { score: 2, label: '不太清楚' },
+                { score: 1, label: '完全不清楚' }
+            ],
+            readiness: [
+                { score: 5, label: '准备充分' },
+                { score: 4, label: '有一定准备' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '准备不足' },
+                { score: 1, label: '完全没准备' }
+            ],
+            anxiety: [
+                { score: 5, label: '非常强烈' },
+                { score: 4, label: '比较明显' },
+                { score: 3, label: '一般或不确定' },
+                { score: 2, label: '比较少' },
+                { score: 1, label: '几乎不会' }
+            ],
+            pressure: [
+                { score: 5, label: '压力很大' },
+                { score: 4, label: '压力比较明显' },
+                { score: 3, label: '一般或不确定' },
+                { score: 2, label: '压力较小' },
+                { score: 1, label: '基本没有压力' }
+            ],
+            resistance: [
+                { score: 5, label: '非常强烈' },
+                { score: 4, label: '比较明显' },
+                { score: 3, label: '一般或不确定' },
+                { score: 2, label: '比较少' },
+                { score: 1, label: '几乎没有' }
+            ],
+            capacity: [
+                { score: 5, label: '完全可以支撑' },
+                { score: 4, label: '基本可以支撑' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '比较困难' },
+                { score: 1, label: '完全无法支撑' }
+            ],
+            plan: [
+                { score: 5, label: '已经明确并可落地' },
+                { score: 4, label: '有初步想法' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '比较模糊' },
+                { score: 1, label: '完全没有规划' }
+            ],
+            attitude: [
+                { score: 5, label: '非常积极' },
+                { score: 4, label: '比较积极' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '比较被动' },
+                { score: 1, label: '完全不想配合' }
+            ],
+            resource: [
+                { score: 5, label: '资源充足且放心' },
+                { score: 4, label: '有一些可用资源' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '资源较少或不放心' },
+                { score: 1, label: '基本没有可用资源' }
+            ],
+            environment: [
+                { score: 5, label: '非常友好' },
+                { score: 4, label: '比较友好' },
+                { score: 3, label: '一般或不确定' },
+                { score: 2, label: '不太友好' },
+                { score: 1, label: '很不友好' }
+            ],
+            willingness: [
+                { score: 5, label: '非常愿意' },
+                { score: 4, label: '比较愿意' },
+                { score: 3, label: '还不确定' },
+                { score: 2, label: '不太愿意' },
+                { score: 1, label: '完全不愿意' }
+            ]
         };
 
         let currentIdx = 0;
@@ -211,13 +311,7 @@
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
 
-            const scaleOptions = [
-                { score: 5, label: scoreLabels[5] },
-                { score: 4, label: scoreLabels[4] },
-                { score: 3, label: scoreLabels[3] },
-                { score: 2, label: scoreLabels[2] },
-                { score: 1, label: scoreLabels[1] }
-            ];
+            const scaleOptions = answerOptions[q.answerType] || answerOptions.agree;
 
             scaleOptions.forEach(opt => {
                 const btn = document.createElement('button');
@@ -302,62 +396,76 @@
                 }
             });
 
-            // 规则文本计算矩阵（继承经典模型）
+            // 规则文本计算矩阵：保留人文关怀风格，降低术语感，并输出更务实的行动建议
             let portrait = "";
             let analysis = "";
             let suggestions = [];
             const isPsychHigh = finalScores.psychology >= 3.5;
 
             if (isPsychHigh) {
-                portrait = "精神内核强大的自主抉择者";
-                analysis = "雷达图显示，你内心深处对生育和母职有着非常清醒且成熟的认知。你明白生育对自己身份带来的重构，并具备良好的无序耐受力。你不是在盲目顺从传统的社会叙事，而是作为一个独立的生命个体在理性审视这件事。这种强大的主观精神内核，是你做任何决策最底层的基石。";
+                portrait = "意愿较清晰的自主决策者";
+                analysis = "从你的回答看，你对生育和母职并不是一时冲动，而是已经认真想过孩子出生后可能带来的生活变化。你能意识到，时间、精力、身体、情绪和职业节奏都会被重新分配，也愿意把这些现实问题放到桌面上讨论。\n\n这份清醒感很重要。它意味着你的决定更可能来自自己的判断，而不是外界催促、年龄焦虑或家庭期待。";
             } else {
-                portrait = "处于迷茫与顾虑中的清醒审视者";
-                analysis = "雷达图显示，你目前对“母职”可能带来的自我时间让渡、身份吞噬存有较高的戒备或恐惧。这非常正常，现代女性的独立性让我们不再盲从传统。外部环境的催促无法打动你，你在严谨地保护自己的主体性，在心理尚未完全安顿好之前，所有的纠结都是你保护自己的安全阀。";
+                portrait = "仍在评估期的清醒审视者";
+                analysis = "从你的回答看，你对成为母亲之后可能失去个人时间、职业节奏和生活掌控感这件事，仍然有比较明显的顾虑。这并不代表你不成熟，也不代表你一定不适合生育。\n\n相反，它说明你正在认真保护自己的生活边界。在心理意愿没有基本确认前，放慢决定是合理的。生育不应该只是被催出来的结果，而应该是你在充分知情之后，仍然愿意承担的选择。";
+                suggestions.push("针对心理准备：建议先把“我是否真的想要孩子”和“别人是否希望我生”分开看。可以写下你对生育最期待的三件事、最抗拒的三件事，再和伴侣进行一次不以说服为目的的沟通。在心理意愿没有基本确认前，不建议仓促进入备孕。");
             }
 
             let strengths = [];
             let pressures = [];
 
-            if (finalScores.economy >= 3.5) {
-                strengths.push("在经济财务与职场成本上，你拥有很好的耐受力或安全边际，物质和职业停滞对你而言不是核心制约因素。");
+            if (finalScores.psychology >= 3.5) {
+                strengths.push("心理认知上，你对生育的期待和代价都有一定预判，不太像是在盲目顺从外界声音。");
             } else {
-                pressures.push("职场机会成本或直接经济压力较大，可能正面临晋升关键期，或者对生育带来的财务刚性支出感到紧绷。");
-                suggestions.push("针对财务职场：建议与伴侣做一次“底线财务压测”，算清楚如果一侧阶段性停工家庭的现金流底线，降低不确定性带来的焦虑。");
+                pressures.push("心理认知上，你对母职可能带来的生活重心变化仍有明显犹豫，需要先确认这是不是自己真正想要进入的人生阶段。");
+            }
+
+            if (finalScores.economy >= 3.5) {
+                strengths.push("经济和职业层面，你目前具备一定缓冲空间，育儿支出或短期职业波动暂时不是最突出的限制。");
+            } else {
+                pressures.push("经济和职业层面，家庭抗风险能力还不够稳定，育儿开销、收入波动或晋升节奏变化可能带来较强压力。");
+                suggestions.push("针对经济条件：建议和伴侣一起做一次家庭现金流盘点，列出孕产检查、分娩、月嫂或育儿嫂、奶粉尿布、托育、医疗和教育等基础支出。至少预留 6-12 个月的家庭应急资金，并评估如果一方收入短期减少，生活质量是否还能维持。重点不是追求“完全有钱再生”，而是避免孩子出生后财务压力集中爆发。");
             }
 
             if (finalScores.family >= 3.5) {
-                strengths.push("你的家庭系统和亲密关系非常给力，伴侣具备良好的共担意识，代际支持也相对正向。");
+                strengths.push("家庭支持层面，你和伴侣之间已有一定协作基础，产后照料和责任共担更容易提前协商。");
             } else {
-                pressures.push("家庭合伙人支持系统仍有加固空间，伴侣在主动分工上可能有所欠缺，或者面临潜在的代际育儿观念内耗。");
-                suggestions.push("针对家庭关系：把隐形压力变成具体分工，试着跟伴侣把家务和夜间带娃的细节聊透，明确合伙人职责。");
+                pressures.push("家庭支持层面，伴侣分工、长辈边界或产后照料方案仍不够清晰，后续容易变成情绪消耗。");
+                suggestions.push("针对家庭支持：建议把“到时候一起带”拆成具体分工，包括夜间照料、家务、喂养、产后陪伴、经济分担和长辈介入边界。尤其要提前确认伴侣是否能主动承担责任，而不是只在被提醒时帮忙。月子照料和初期带娃方案也应尽早确定，避免产后才开始临时协商。");
             }
 
+            if (finalScores.biology >= 3.5) {
+                strengths.push("生理健康层面，你对身体检查、孕产风险和产后恢复有一定认识，也更容易用客观信息做判断。");
+            }
             if (finalScores.biology < 3.5) {
-                pressures.push("生理时间窗口或身体耐受度认知让你感到一些压力，可能存在年龄带来的时间焦虑，或对产后身体损伤有所担忧。");
-                suggestions.push("针对生理时间：寻求客观的围产期医学科普，破除“技术万能论”或过度的“年龄恐慌”，必要时可做系统的生育力评估。");
+                pressures.push("生理健康层面，你的身体状态、作息基础或孕产风险认知还需要进一步评估，不能只靠焦虑或侥幸推进。");
+                suggestions.push("针对生理健康：建议优先完成系统孕前检查，了解月经、排卵、慢性病、妇科基础问题和家族遗传风险。接下来重点调整作息、运动、营养和长期疲劳状态。如果年龄或身体指标已经带来时间压力，建议尽早咨询专业医生，用真实身体数据辅助判断，而不是单靠焦虑或侥幸做决定。");
+            }
+
+            if (finalScores.social >= 3.5) {
+                strengths.push("职业与社会支持层面，你对政策、职场环境和托育资源已有一定把握，外部条件能提供部分托底。");
             }
             if (finalScores.social < 3.5) {
-                pressures.push("由于所处地域的托育资源不完善或职场文化不友好，你正在用极高的个人精力去对冲宏观制度的不健全。");
-                suggestions.push("针对社会大环境：多去了解和挖掘社区周边的隐形支持网络（如同龄互助社群、可靠的私立托育），寻找体制外的托底资源。");
+                pressures.push("职业与社会支持层面，托育资源、政策信息或职场友好度还不够明确，生育可能带来现实损失。");
+                suggestions.push("针对职业与社会支持：建议提前了解所在地的产假、生育津贴、医保报销、育儿假和托育资源，同时评估公司对孕期、产后回归、弹性安排的真实友好程度。如果正处在职业关键阶段，可以提前规划备孕时间和产后回归路径，尽量减少生育对职业发展的被动影响。");
             }
 
             analysis += "\n\n【现状拆解】：";
-            if (strengths.length > 0) analysis += " 你的优势在于：" + strengths.join(" ");
+            if (strengths.length > 0) analysis += " 目前相对稳定的部分是：" + strengths.join(" ");
             if (pressures.length > 0) {
-                analysis += " 目前主要的压力源在于：" + pressures.join(" ");
+                analysis += " 更需要优先处理的是：" + pressures.join(" ");
             } else {
-                analysis += " 令人羡慕的是，你的外部各项现实客观条件都非常理想。";
+                analysis += " 目前没有特别突出的短板，但仍建议保留真实沟通和动态评估，不必为了追求“完美准备”而给自己增加新的压力。";
             }
 
             if (isPsychHigh && pressures.length === 0) {
-                portrait = "全面准备：顺理成章的绿灯期";
-                suggestions.push("目前一切条件都非常顺理成章，保持轻松愉悦的心态，按自己的节奏前行即可。");
+                portrait = "意愿清晰，现实条件较稳";
+                suggestions.push("目前你的主观意愿和现实条件都相对稳定。接下来可以把重点放在孕前体检、家庭财务预案、产后照料分工和职业安排确认上。只要这些基础事项逐步落地，就可以按照自己的节奏推进，不需要被外界时间表牵着走。");
             }
-            if (isPsychHigh && pressures.length >= 3) portrait = "高阻力-高耐受的孤勇者";
+            if (isPsychHigh && pressures.length >= 3) portrait = "意愿明确，但现实支持不足";
             if (!isPsychHigh && pressures.length === 0) {
-                portrait = "低阻力-低耐受的清醒独立者";
-                suggestions.push("现实万事俱备，不想生也是极其完美的现代生活解。给自己一个半年的“生育决策冷冻期”，全然享受当下的绝对自由。");
+                portrait = "现实条件充足，但主观意愿未定";
+                suggestions.push("从现实条件看，你并没有被明显短板卡住；但如果内心仍然没有形成稳定意愿，也不需要因为“条件都还可以”就匆忙决定。建议给自己设置一段观察期，暂时不做承诺，只记录自己在不同生活场景下对生育的真实感受，再回头判断这是不是你愿意主动选择的人生方向。");
             }
 
             document.getElementById('portrait-tag').innerText = portrait;
