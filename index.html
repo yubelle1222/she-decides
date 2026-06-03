@@ -3,53 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生育决策辅助评估系统 ---致力于做最懂女性的生育决策陪伴与支持工具</title>
+    <title>shechoose｜生育决策辅助评估</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
     </style>
 </head>
-<body class="bg-[#FDFBF7] text-[#333] min-h-screen flex flex-col justify-between">
+<body class="bg-[#FAFCF8] text-[#333] min-h-screen flex flex-col justify-between">
 
-    <header class="p-6 max-w-4xl mx-auto w-full flex justify-between items-center border-b border-[#EAE5DC]">
-        <div class="font-bold text-lg text-[#606C38]">SheDecides .</div>
-        <div class="text-xs text-gray-400 max-w-xl text-right hidden md:block">本问卷所涉及的内容及建议仅供参考，不构成任何专业的 [医疗/心理/财务] 诊断或决定依据。生育是个体自由，无论您的测评结果如何，我们都全然尊重并支持您的任何决定。</div>
+    <header class="p-6 max-w-4xl mx-auto w-full flex flex-col gap-3 border-b border-[#E4ECE4] md:flex-row md:items-center md:justify-between">
+        <div class="font-bold text-lg text-[#6F8F7C] shrink-0">Shechoose</div>
+        <div class="text-xs text-gray-400 leading-relaxed max-w-2xl md:text-right">
+            本问卷内容及建议仅供参考，不构成任何医疗、心理或财务方面的专业建议及决定依据。生育是个体自由，无论测评结果如何，我们都尊重并支持你的选择。
+        </div>
     </header>
 
     <main class="flex-grow flex items-center justify-center p-4">
-        <div class="max-w-xl w-full bg-white rounded-2xl shadow-sm border border-[#EAE5DC] p-8 md:p-10 transition-all duration-300">
+        <div class="max-w-xl w-full bg-white rounded-2xl shadow-sm border border-[#E4ECE4] p-8 md:p-10 transition-all duration-300">
             
             <div id="home-view" class="space-y-6">
                 <div class="space-y-2">
-                    <span class="text-xs font-semibold tracking-widest text-[#9AC1B4] uppercase">客观 · 理性 · 赋能</span>
-                    <h1 class="text-2xl md:text-3xl font-serif font-bold text-[#2B3A1A] leading-tight">生育决策辅助评估</h1>
+                    <h1 class="text-2xl md:text-3xl font-serif font-bold text-[#2F4638] leading-tight">生育决策辅助评估</h1>
                 </div>
                 <p class="text-gray-600 text-sm leading-relaxed">
                     费孝通先生在《生育制度》中提到，生育绝非单纯的生物学现象，而是个体与复杂社会制度的博弈。本系统基于学术界的决策支持框架，从心理、经济、家庭、生理、社会五个维度，帮助你客观解构当下的处境，看清内心的真实期盼。
                 </p>
-                <div class="bg-[#F4F1EA] p-4 rounded-xl text-xs text-gray-500 space-y-1">
-                    <p>🔒 <strong>隐私承诺：</strong> 我们不收集任何个人数据。答题数据仅存在于您当前的浏览器内存中，关闭网页即刻销毁。</p>
+                <div class="bg-[#F1F6F1] p-4 rounded-xl text-xs text-gray-500 space-y-1">
+                    <p>📝 <strong>测评提示：</strong> 本测评共 25 题，预计耗时 5-8 分钟。题目没有标准答案，请根据你当下的真实状态和感受作答。</p>
                 </div>
-                <button onclick="startQuiz()" class="w-full bg-[#606C38] text-white py-3 rounded-xl font-medium hover:bg-[#4F592F] transition shadow-md cursor-pointer text-center block">
+                <button onclick="startQuiz()" class="w-full bg-[#6F8F7C] text-white py-3 rounded-xl font-medium hover:bg-[#5F7F6E] transition shadow-md cursor-pointer text-center block">
                     开始匿名测评 (共 25 题)
                 </button>
             </div>
 
            <div id="quiz-view" class="hidden space-y-6">
-                <div class="w-full bg-[#F4F1EA] h-1.5 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="bg-[#9AC1B4] h-full transition-all duration-300" style="width: 0%"></div>
+                <div class="w-full bg-[#F1F6F1] h-1.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-[#AFCBBB] h-full transition-all duration-300" style="width: 0%"></div>
                 </div>
                 <div class="flex justify-between text-xs text-gray-400">
                     <span id="dimension-tag">当前维度</span>
                     <div class="space-x-3">
-                        <button id="prev-btn" onclick="prevQuestion()" class="text-[#606C38] hover:underline cursor-pointer hidden">← 返回上一题</button>
+                        <button id="prev-btn" onclick="prevQuestion()" class="text-[#6F8F7C] hover:underline cursor-pointer hidden">← 返回上一题</button>
                         <span id="progress-text">1 / 25</span>
                     </div>
                 </div>
                 
                 <div class="min-h-[120px] flex items-center">
-                    <h2 id="question-text" class="text-lg font-medium text-[#2B3A1A] leading-snug">题目加载中...</h2>
+                    <h2 id="question-text" class="text-lg font-medium text-[#2F4638] leading-snug">题目加载中...</h2>
                 </div>
 
                 <div id="options-container" class="space-y-3 pt-4"></div>
@@ -57,45 +58,45 @@
 
             <div id="result-view" class="hidden space-y-8">
                 <div class="text-center space-y-2">
-                    <span class="text-xs font-bold text-[#9AC1B4] tracking-widest">TEST REPORT</span>
-                    <h2 class="text-2xl font-bold text-[#2B3A1A]">您的生育决策评估报告</h2>
-                    <p id="portrait-tag" class="inline-block bg-[#E6EDEA] text-[#4A7A68] px-3 py-1 rounded-full text-xs font-medium">画像计算中...</p>
+                    <span class="text-xs font-bold text-[#AFCBBB] tracking-widest">TEST REPORT</span>
+                    <h2 class="text-2xl font-bold text-[#2F4638]">您的生育决策评估报告</h2>
+                    <p id="portrait-tag" class="inline-block bg-[#DDEBE2] text-[#527363] px-3 py-1 rounded-full text-xs font-medium">画像计算中...</p>
                 </div>
 
                 <div class="w-full max-w-[320px] mx-auto aspect-square">
                     <canvas id="radarChart"></canvas>
                 </div>
 
-                <div class="space-y-4 border-t border-[#EAE5DC] pt-6">
-                    <h3 class="font-bold text-[#2B3A1A] text-sm flex items-center">
-                        <span class="w-1.5 h-4 bg-[#606C38] inline-block mr-2 rounded-full"></span>核心分析与诊断
+                <div class="space-y-4 border-t border-[#E4ECE4] pt-6">
+                    <h3 class="font-bold text-[#2F4638] text-sm flex items-center">
+                        <span class="w-1.5 h-4 bg-[#6F8F7C] inline-block mr-2 rounded-full"></span>综合分析与思考
                     </h3>
-                    <p id="analysis-text" class="text-gray-600 text-sm leading-relaxed bg-[#FDFBF7] p-4 rounded-xl border border-[#F4F1EA]" style="white-space: pre-line;">
+                    <p id="analysis-text" class="text-gray-600 text-sm leading-relaxed bg-[#FAFCF8] p-4 rounded-xl border border-[#F1F6F1]" style="white-space: pre-line;">
                         分析加载中...
                     </p>
                 </div>
 
                 <div class="space-y-3">
-                    <h3 class="font-bold text-[#2B3A1A] text-sm flex items-center">
-                        <span class="w-1.5 h-4 bg-[#9AC1B4] inline-block mr-2 rounded-full"></span>行动建议 (Next Steps)
+                    <h3 class="font-bold text-[#2F4638] text-sm flex items-center">
+                        <span class="w-1.5 h-4 bg-[#AFCBBB] inline-block mr-2 rounded-full"></span>行动建议 (Next Steps)
                     </h3>
                     <ul id="suggestions-list" class="text-sm text-gray-600 space-y-2 list-disc pl-5 leading-relaxed">
                         </ul>
                 </div>
 
-                <div class="space-y-3 border-t border-[#EAE5DC] pt-6">
-                    <h3 class="font-bold text-[#2B3A1A] text-sm flex items-center">
+                <div class="space-y-3 border-t border-[#E4ECE4] pt-6">
+                    <h3 class="font-bold text-[#2F4638] text-sm flex items-center">
                         <span class="w-1.5 h-4 bg-gray-400 inline-block mr-2 rounded-full"></span>您的选项回顾
                     </h3>
-                    <div id="history-container" class="text-xs text-gray-600 space-y-3 max-h-[200px] overflow-y-auto bg-[#FDFBF7] p-4 rounded-xl border border-[#F4F1EA]">
+                    <div id="history-container" class="text-xs text-gray-600 space-y-3 max-h-[200px] overflow-y-auto bg-[#FAFCF8] p-4 rounded-xl border border-[#F1F6F1]">
                         </div>
                 </div>
 
                 <div class="pt-4 flex gap-3">
-                    <button onclick="location.reload()" class="flex-1 bg-[#F4F1EA] text-gray-700 py-3 rounded-xl font-medium hover:bg-[#EAE5DC] transition text-sm">
+                    <button onclick="location.reload()" class="flex-1 bg-[#F1F6F1] text-gray-700 py-3 rounded-xl font-medium hover:bg-[#E4ECE4] transition text-sm">
                         重新测试
                     </button>
-                    <button onclick="window.print()" class="flex-1 bg-[#606C38] text-white py-3 rounded-xl font-medium hover:bg-[#4F592F] transition text-sm shadow">
+                    <button onclick="window.print()" class="flex-1 bg-[#6F8F7C] text-white py-3 rounded-xl font-medium hover:bg-[#5F7F6E] transition text-sm shadow">
                         打印 / 保存PDF报告
                     </button>
                 </div>
@@ -104,8 +105,11 @@
         </div>
     </main>
 
-    <footer class="p-6 text-center text-xs text-gray-400 max-w-4xl mx-auto w-full border-t border-[#EAE5DC]">
-        一个去商业化的、纯粹属于女性的决策支持工具 · 祝你始终拥有生活的主导权
+    <footer class="p-6 text-center text-xs text-gray-400 max-w-4xl mx-auto w-full border-t border-[#E4ECE4] space-y-2">
+        <p>看见处境，尊重选择，温柔陪伴 · 祝你始终拥有生活的主导权</p>
+        <p class="text-[10px] leading-relaxed text-gray-300 max-w-3xl mx-auto">
+            本站为非商业化公益测评工具，无需注册登录。用户作答数据仅用于即时生成本次测评报告，无后台留存、无信息采集，不做任何商业用途。后续功能迭代将提前公示规则并获取用户授权。
+        </p>
     </footer>
 
     <script>
@@ -315,7 +319,7 @@
 
             scaleOptions.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left p-3.5 rounded-xl border border-[#EAE5DC] text-sm hover:bg-[#F4F1EA] hover:border-[#9AC1B4] transition active:scale-[0.99] cursor-pointer block";
+                btn.className = "w-full text-left p-3.5 rounded-xl border border-[#E4ECE4] text-sm hover:bg-[#F1F6F1] hover:border-[#AFCBBB] transition active:scale-[0.99] cursor-pointer block";
                 btn.innerText = opt.label;
                 btn.onclick = () => handleAnswer(opt.score, opt.label);
                 optionsContainer.appendChild(btn);
@@ -355,7 +359,7 @@
             }
         }
 
-        // 5. 精准多维度诊断算法与结果渲染
+        // 5. 多维度评估算法与结果渲染
         function calculateResult() {
             document.getElementById('quiz-view').classList.add('hidden');
             document.getElementById('result-view').classList.remove('hidden');
@@ -384,14 +388,14 @@
                     datasets: [{
                         label: '准备度得分',
                         data: [finalScores.psychology, finalScores.economy, finalScores.family, finalScores.biology, finalScores.social],
-                        backgroundColor: 'rgba(154, 193, 180, 0.4)',
-                        borderColor: '#606C38',
+                        backgroundColor: 'rgba(175, 203, 187, 0.35)',
+                        borderColor: '#6F8F7C',
                         borderWidth: 2,
-                        pointBackgroundColor: '#606C38'
+                        pointBackgroundColor: '#6F8F7C'
                     }]
                 },
                 options: {
-                    scales: { r: { min: 1, max: 5, ticks: { stepSize: 1, display: false }, grid: { color: '#EAE5DC' } } },
+                    scales: { r: { min: 1, max: 5, ticks: { stepSize: 1, display: false }, grid: { color: '#E4ECE4' } } },
                     plugins: { legend: { display: false } }
                 }
             });
@@ -501,10 +505,10 @@
             userAnswers.forEach((ans, index) => {
                 if (ans) {
                     const item = document.createElement('div');
-                    item.className = "border-b border-[#F4F1EA] pb-2 last:border-0";
+                    item.className = "border-b border-[#F1F6F1] pb-2 last:border-0";
                     item.innerHTML = `
-                        <p class="font-medium text-[#2B3A1A]">${index + 1}. ${ans.qText}</p>
-                        <p class="text-[#606C38] mt-0.5">您的选择：<strong>${ans.userLabel}</strong> <span class="text-gray-400">(${dimensionNames[ans.dim]})</span></p>
+                        <p class="font-medium text-[#2F4638]">${index + 1}. ${ans.qText}</p>
+                        <p class="text-[#6F8F7C] mt-0.5">您的选择：<strong>${ans.userLabel}</strong> <span class="text-gray-400">(${dimensionNames[ans.dim]})</span></p>
                     `;
                     historyContainer.appendChild(item);
                 }
